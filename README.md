@@ -6,7 +6,7 @@ This project is a responsive and animated webpage built using **Next.js (App Rou
 
 Please refer to the video for exact animation and functionality:
 
-- [Google Drive Video Link](https://drive.google.com/drive/folders/1yeklCMBqYDDoCgnyqcqqwQhpyV5uBi3L?usp=drive_link)
+- https://simbian-test-by-aditya.netlify.app/
 
 ---
 

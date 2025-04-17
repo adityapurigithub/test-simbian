@@ -25,6 +25,42 @@ const HeroSimbian = () => {
     };
   }, []);
 
+  const [translateX, setTranslateX] = useState(700);
+
+  useEffect(() => {
+    const updateTranslateX = () => {
+      const screenWidth = window.innerWidth;
+      // Translate up to 50% of screen width, but not more than 700
+      const offset = Math.min(screenWidth * 0.5, 700);
+      setTranslateX(offset);
+    };
+
+    updateTranslateX(); // Initial setup
+    window.addEventListener("resize", updateTranslateX);
+    return () => window.removeEventListener("resize", updateTranslateX);
+  }, []);
+
+  const [shouldTranslate, setShouldTranslate] = useState(true);
+
+  useEffect(() => {
+    const updateTranslateX = () => {
+      const screenWidth = window.innerWidth;
+
+      // If screen is small, limit translate to 30-40% of screen
+      const offset =
+        screenWidth <= 768
+          ? Math.min(screenWidth * 0.3, 100) // much smaller shift on mobile
+          : Math.min(screenWidth * 0.5, 700); // default for large screens
+
+      setTranslateX(offset);
+      setShouldTranslate(screenWidth > 768); // Only animate transform above 768px
+    };
+
+    updateTranslateX(); // Initial setup
+    window.addEventListener("resize", updateTranslateX);
+    return () => window.removeEventListener("resize", updateTranslateX);
+  }, []);
+
   return (
     <motion.div
       initial={{ opacity: 0.95 }}
@@ -92,7 +128,9 @@ const HeroSimbian = () => {
 
       <div className="flex flex-col lg:flex-row justify-around mt-6 gap-4">
         <motion.div
-          animate={animateTransform ? { x: 800 } : { x: 0 }}
+          animate={
+            animateTransform && shouldTranslate ? { x: translateX } : { x: 0 }
+          }
           transition={{ duration: 1, type: "spring" }}
           className="flex flex-col gap-4"
         >
@@ -102,7 +140,9 @@ const HeroSimbian = () => {
         </motion.div>
 
         <motion.div
-          animate={animateTransform ? { x: -800 } : { x: 0 }}
+          animate={
+            animateTransform && shouldTranslate ? { x: -translateX } : { x: 0 }
+          }
           transition={{ duration: 1, type: "spring" }}
           className="flex flex-col gap-4"
         >
